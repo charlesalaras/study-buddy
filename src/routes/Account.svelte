@@ -79,9 +79,12 @@
       loading = false
     }
   }
+  // Import the new component
+  import Avatar from './Avatar.svelte'
 </script>
 
-<form class="form-widget" on:submit|preventDefault="{updateProfile}">
+<form use:getProfile class="form-widget" on:submit|preventDefault="{updateProfile}">
+  <Avatar bind:url="{avatarUrl}" size="{10}" on:upload="{updateProfile}" />
   <div>
     <label for="email">Email</label>
     <input id="email" type="text" value="{session.user.email}" disabled />

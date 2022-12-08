@@ -7,7 +7,6 @@
 
   let loading = false
   let username: string | null = null
-  let website: string | null = null
   let avatarUrl: string | null = null
 
   onMount(() => {
@@ -21,13 +20,12 @@
 
       const { data, error, status } = await supabase
         .from('profiles')
-        .select(`username, website, avatar_url`)
+        .select(`username, avatar_url`)
         .eq('id', user.id)
         .single()
 
       if (data) {
         username = data.username
-        website = data.website
         avatarUrl = data.avatar_url
       }
 
@@ -49,7 +47,6 @@
       const updates = {
         id: user.id,
         username,
-        website,
         avatar_url: avatarUrl,
         updated_at: new Date(),
       }
@@ -92,10 +89,6 @@
   <div>
     <label for="username">Name</label>
     <input id="username" type="text" bind:value="{username}" />
-  </div>
-  <div>
-    <label for="website">Website</label>
-    <input id="website" type="website" bind:value="{website}" />
   </div>
 
   <div>

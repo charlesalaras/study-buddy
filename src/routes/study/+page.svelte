@@ -15,7 +15,7 @@
 
 <div><span>Loop </span><span>{loops - 4}</span></div>
 <div class="timer">
-        <span>{minutes}</span>:<span>{seconds === 0 ? "00" : seconds}</span>
+    <span>{minutes}</span>:<span>{seconds < 10 ? "0" + seconds : seconds}</span>
 </div>
 
 <style>

@@ -7,12 +7,23 @@
     import { onMount } from "svelte"
     import { page } from "$app/stores"
 
+    let tokens: number | null = null;
+    let avatarUrl: string | null = null;
+
+    const getUserData = async () => {
+        const { data, error } = await supabase.from('profiles').select().eq('id', $page.data.session.user.id);
+        avatarUrl = data[0].avatar_url;
+        tokens = data[0].tokens;
+    }
+
     onMount(() => {
         const { data: { subscription }, } = supabase.auth.onAuthStateChange(() => { invalidate('supabase:auth') })
         
         return () => { subscription.unsubscribe() }
     })
-
+$: if($page.data.session) {
+    getUserData();
+}
 </script>
 <svelte:head>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -20,7 +31,7 @@
 </svelte:head>
 
 <div class="app">
-	<Header avatarUrl={$page.data.session ? $page.data.session.user.avatarUrl : undefined}/>
+	<Header bind:avatarUrl="{avatarUrl}" bind:tokens={tokens}/>
 
 	<main>
 		<slot />

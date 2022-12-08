@@ -1,25 +1,57 @@
 <script lang="ts">
+    import { supabase } from '$lib/supabaseClient'
     export let avatarUrl;
     export let tokens;
+
+  let absoluteURL: string | null = null
+  const downloadImage = async (path: string) => {
+    try {
+      const { data, error } = await supabase.storage.from('avatars').download(path)
+
+      if (error) {
+        throw error
+      }
+
+      const url = URL.createObjectURL(data)
+      absoluteURL = url
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log('Error downloading image: ', error.message)
+      }
+    }
+  }
+
+$: if(avatarUrl) {
+    console.log(avatarUrl)
+    downloadImage(avatarUrl)
+}
 </script>
 
 <header>
     <div class="tokens">
+        <span class="material-symbols-outlined">generating_tokens</span>
         {#if tokens !== undefined}
-            Hello
+            {tokens}
         {/if}
     </div>
     <div>
         <a class="title" href="/">Study Buddy</a>
     </div>
-    {#if avatarUrl !== undefined}
-        <img class="profile-pic" src={avatarUrl} alt={avatarUrl ? "Profile Picture" : "No image"}/>
+    {#if avatarUrl}
+        <img class="profile-pic" src="{absoluteURL}" alt={avatarUrl ? "Profile Picture" : "No image"}/>
     {:else}
         <div class="profile-pic"></div>
     {/if}
 </header>
 
 <style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 48
+    }
     header {
         color: #E6E1E5;
         background-color: #1C1B1F;
@@ -28,6 +60,7 @@
 		display: flex;
         justify-content: space-evenly;
         align-items: center;
+        width: 100vw;
     }
     .title {
         font-weight: 700;
@@ -37,29 +70,19 @@
     .title:hover {
         color: #D0BCFF;
     }
+    .tokens {
+        width: 10vh;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        font-size: 0.75em;
+    }
     .profile-pic {
-        height: 100%;
+        height: 50%;
+        border-radius: 50%;
         aspect-ratio: 1 / 1;
     }
-	.corner {
-		width: 3em;
-		height: 3em;
-	}
-
-	.corner a {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		height: 100%;
-	}
-
-	.corner img {
-		width: 2em;
-		height: 2em;
-		object-fit: contain;
-	}
-
 	nav {
 		display: flex;
 		justify-content: center;

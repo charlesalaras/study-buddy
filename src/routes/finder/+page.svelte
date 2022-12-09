@@ -80,7 +80,7 @@ String.prototype.hashCode = function() {
                     <div style="font-size: 1.5em; font-weight: 700">{buddy.username}</div>
                     <div>{buddy.school}</div>
                     <div>{buddy.major}</div>
-                    <button class="return">
+                    <button class="return" style="width: 200px">
                         <span style="margin-right: 5px" class="material-symbols-outlined">person_add</span> Study with Buddy
                     </button>
                 </div>

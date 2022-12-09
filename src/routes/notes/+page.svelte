@@ -7,46 +7,65 @@
 <div>
     <div class="card">
         <div class="title">
-            <h1>Partial Derivatives</h1>
-            <h2>Linear Algebra</h2>
+            <div style="font-weight: 700; font-size: 2em">Partial Derivatives</div>
+            <div>Linear Algebra</div>
         </div>
         <div class="preview">
-            <img src="https://cdn.glitch.com/9c389208-b279-4e96-bcbc-e5f8712d8706%2Fplaceholder-landscape-short.png"/> 
+            <img src="https://lh3.googleusercontent.com/DAeLGsE71e2dNbcIr51s4ZGr-Z_CnrhW-wa50u8H2vO_jJ6zYovMU-RIR7bgKYz4Q3ru_L5qmp6rHfThDj9mktyZvGwTM6i3LA5dAg=w760-h360"/>
         </div>
         <div class="description">
-
+            Notes for solving partial derivatives. Includes 5 mini lesson videos, 10 detailed exercises, and 10 worked out examples.
+            <div class="align-right">
+                <div style="flex-grow: 1"></div>
+                <button class="buy"><span style="margin-right: 5px" class="material-symbols-outlined">generating_tokens</span>100: Buy Notes</button>
+            </div>
         </div>
     </div>
 </div>
 
 <style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 48
+    }
     .menu {
         display: flex;
-        width: 100vw;
         align-items: center;
         justify-content: center;
     }
+    .preview {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     .card {
-        width: 90vw;
+        display: flex;
+        padding: 20px;
+        box-sizing: border-box;
+        flex-direction: column;
+        justify-content: center;
         border-radius: 12px;
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 0.5fr 1.5fr 1fr;
-        grid-column-gap: 0px;
-        grid-row-gap: 0px;
+        border: 1px solid #49454F;
     }
-    .title { 
-        width: 100%;
-        grid-area: 1 / 1 / 2 / 2;
+    .preview {
+        overflow: hidden;
     }
-    .preview { 
-        width: 100%;
-        height: 10vh;
-        object-fit: fill;
-        grid-area: 2 / 1 / 3 / 2; 
+    .align-right {
+        padding-top: 20px;
+        display: flex;
     }
-    .description { 
-        width: 100%;
-        grid-area: 3 / 1 / 4 / 2; 
-    } 
+    .buy {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #381E72;
+        background-color: #C4AFF4;
+        border: none;
+        font-weight: 700;
+        padding: 10px 20px 10px 20px;
+        border-radius: 40px;
+    }
 </style>

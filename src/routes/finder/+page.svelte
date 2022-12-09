@@ -17,10 +17,10 @@
             ...(school ? {school} : {}),
             ...(major ? {major} : {}),
         };
+        console.log(query)
         try {
-            let { data, error } = await supabase.from('profiles').select()
-                .match(query)
-                .contains('courses', [classes]);
+            let { data, error } = await supabase.from('fakeprofiles').select()
+                .match(query);
             console.log(data);
             buddies = data;
         if (error) throw error
@@ -34,6 +34,18 @@
             console.log(active);
         }
     }
+
+String.prototype.hashCode = function() {
+  var hash = 0,
+    i, chr;
+  if (this.length === 0) return hash;
+  for (i = 0; i < this.length; i++) {
+    chr = this.charCodeAt(i);
+    hash = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+}
 </script>
 
 <div>
@@ -49,7 +61,7 @@
         </div>
         <div class="form-block">
         <label for="school">Courses</label>
-        <input class="field" type="text" placeholder="Courses" id="courses" bind:value="{classes}"/>
+        <input class="field" type="text" placeholder="Courses" id="courses" bind:value="{classes}" disabled/>
         </div>
         <div class="form-submit">
             <button class="submit"><span class="material-symbols-outlined">search</span>FIND MY STUDY BUDDY</button>
@@ -62,7 +74,7 @@
         {#each buddies as buddy}
             <div class="card">
                 <div class="profile-pic">
-
+                    <img src="https://avatars.dicebear.com/api/micah/{String(buddy.username)}.svg" width="100%" height="100%"/>
                 </div>
                 <div class="card-details">
                     <div style="font-size: 1.5em; font-weight: 700">{buddy.username}</div>
@@ -84,6 +96,13 @@
         'wght' 700,
         'GRAD' 0,
         'opsz' 40
+    }
+    .profile-pic {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 10%;
+        margin-right: 20px;
     }
     .return {
         display: flex;

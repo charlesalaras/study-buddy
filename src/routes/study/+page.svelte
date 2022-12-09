@@ -1,7 +1,7 @@
 <script>
     import { tweened } from "svelte/motion";
-    let main = 0.2 * 60;
-    let rest = 0.1 * 60;
+    let main = 30 * 60;
+    let rest = 5 * 60;
     let loops = 0;
     let timer = tweened(main);
     let pauseTime = false;

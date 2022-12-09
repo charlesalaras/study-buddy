@@ -1,5 +1,6 @@
 <script lang="ts">
     import { supabase } from "$lib/supabaseClient";
+    import { page } from "$app/stores";
     let active: boolean = true;
     let buddies = [];
 
@@ -34,18 +35,17 @@
             console.log(active);
         }
     }
-
-String.prototype.hashCode = function() {
-  var hash = 0,
-    i, chr;
-  if (this.length === 0) return hash;
-  for (i = 0; i < this.length; i++) {
-    chr = this.charCodeAt(i);
-    hash = ((hash << 5) - hash) + chr;
-    hash |= 0; // Convert to 32bit integer
-  }
-  return hash;
-}
+    async function addBuddy(id) {
+        if($page.data.session) {
+            const updates = {
+                partner1: id,
+                partner2: $page.data.session.user.id,
+        };
+            console.log(updates)
+            const { error } = await supabase.from('buddies').upsert(updates);
+        }
+        else alert("Error: No Auth!");
+    }
 </script>
 
 <div>
@@ -80,7 +80,7 @@ String.prototype.hashCode = function() {
                     <div style="font-size: 1.5em; font-weight: 700">{buddy.username}</div>
                     <div>{buddy.school}</div>
                     <div>{buddy.major}</div>
-                    <button class="return" style="width: 200px">
+                    <button on:click="{() => {addBuddy(buddy.id)}}" class="return" style="width: 200px">
                         <span style="margin-right: 5px" class="material-symbols-outlined">person_add</span> Study with Buddy
                     </button>
                 </div>

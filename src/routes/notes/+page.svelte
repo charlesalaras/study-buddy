@@ -1,6 +1,18 @@
-<script>
-    function downloadNotes(slug) {
+<script lang="ts">
+    import { supabase } from "$lib/supabaseClient";
+    import { page } from "$app/stores";
+    let bought = false;    
 
+    async function downloadNotes() {
+        if($page.data.session) {
+            const { data, error } = await supabase.from('profiles').select('tokens').eq('id',$page.data.session.user.id)
+            if(data[0].tokens < 97) {
+                alert("Not enough tokens!");
+                return;
+            }
+            const { error2 } = await supabase.from('profiles').update({ tokens: data[0].tokens - 97}).eq('id',$page.data.session.user.id)
+            bought = true;
+        }
     }
 </script>
 
@@ -17,7 +29,7 @@
             Notes for solving partial derivatives. Includes 5 mini lesson videos, 10 detailed exercises, and 10 worked out examples.
             <div class="align-right">
                 <div style="flex-grow: 1"></div>
-                <button class="buy"><span style="margin-right: 5px" class="material-symbols-outlined">generating_tokens</span>100: Buy Notes</button>
+                <button on:click="{downloadNotes}" class="buy" disabled={bought}><span style="margin-right: 5px" class="material-symbols-outlined">generating_tokens</span>97: Buy Notes</button>
             </div>
         </div>
     </div>
@@ -67,5 +79,8 @@
         font-weight: 700;
         padding: 10px 20px 10px 20px;
         border-radius: 40px;
+    }
+    .buy:disabled {
+        background-color: #5D5473;
     }
 </style>
